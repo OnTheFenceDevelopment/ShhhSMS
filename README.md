@@ -13,8 +13,15 @@ I've previously written a command line utility that will encrypt text and files 
 So, in an effort to demonstrate the futility of hobbling platforms such as WhatsApp, to show that the encryption genie is very much out of the bottle and cannot be put back in.
 
 ## How it works
-ShhhSMS works by encrypting messages using private/public keys before handing the resulting text to the devices built-in SMS application.
 
-When a ShhhSMS message is received by the recipient they can use the SMS applications built-in functionality to share the encrypted text with ShhhSMS - which will then attempt to decrypt it and display it on screen for the user.
+### Key Exchange & Maintenance
+One user will use ShhhSMS to generate a random guid as a contact id, combine it with the users public key and display a QR code onscreen. The other user will use ShhhSMS to scan the barcode to import the id and public key - as well as prompting the user for a name for the contact for ease of retrieval using sending.
 
-The key difference here is that the the app uses the mobile carriers SMS channel to send the messages and they are not responsible for any part of the encryption - so they cannot be pressured to provide access to the decrpyted text.
+### Sending Messages
+ShhhSMS works by encrypting messages using private/public keys before handing the resulting text to the devices built-in SMS application for sending. ShhhSMS does not store the sent message and the text is destroyed once the request is handed off to the SMS application (which will only ever contain the senders 'contact id' and the encrypted message).
+
+### Receiving Messages
+When a ShhhSMS message is received by the recipient they can use the SMS applications built-in functionality to share the encrypted text with ShhhSMS - which will then attempt to decrypt it by resolving the public key using the 'contact id' in the SMS message and display it on screen for the user.
+
+## The Benefits
+The key difference here is that the the app uses the mobile carriers SMS channel to send the messages and they are not responsible for any part of the encryption - so they cannot be pressured to provide access to the decrypted text.
