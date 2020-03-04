@@ -14,6 +14,7 @@ using SupportFragment = Android.Support.V4.App.Fragment;
 namespace ShhhSMS
 {
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", MainLauncher = true)]
+    [IntentFilter(new[] { Android.Content.Intent.ActionSend }, Categories = new[] { Android.Content.Intent.CategoryDefault }, DataMimeType = @"text/plain")]
     public class MainActivity : AppCompatActivity, NavigationView.IOnNavigationItemSelectedListener
     {
         FloatingActionButton fab;
@@ -41,6 +42,13 @@ namespace ShhhSMS
             var welcomeTransaction = SupportFragmentManager.BeginTransaction();
             welcomeTransaction.Add(Resource.Id.fragment_container, new WelcomeFragment(), "Welcome");
             welcomeTransaction.Commit();
+
+            // Check for 'incoming' SMS message
+            if (Intent.Action == Android.Content.Intent.ActionSend && Intent.Type == "text/plain")
+            {
+                var readerFragment = new ReaderFragment(Intent.GetStringExtra(Android.Content.Intent.ExtraText));
+                PerformFragmentNavigation(readerFragment, "Reader");
+            }
         }
 
         public override void OnBackPressed()
@@ -117,7 +125,6 @@ namespace ShhhSMS
 
         private void ComposeFragment_OnCancel(object sender, EventArgs e)
         {
-            // TODO: Need to Set the Selected Menu Item
             navigationView.Menu.GetItem(0).SetChecked(true);
             PerformFragmentNavigation(new WelcomeFragment(), "Welcome");
         }

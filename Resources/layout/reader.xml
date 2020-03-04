@@ -12,4 +12,11 @@
         android:minHeight="25px"
         android:id="@+id/readerHolding" />
 
+	<TextView
+		android:text="Text"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:id="@+id/messageText"
+        android:lines="10" />
+
 </LinearLayout>
