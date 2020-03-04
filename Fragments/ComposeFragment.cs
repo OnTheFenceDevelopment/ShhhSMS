@@ -34,13 +34,28 @@ namespace ShhhSMS.Fragments
 
             _composeSend = rootView.FindViewById<Button>(Resource.Id.composeSend);
             _composeSend.Click += ComposeSend_Click;
+            _composeSend.Enabled = false;
 
             _composeCancel = rootView.FindViewById<Button>(Resource.Id.composeCancel);
             _composeCancel.Click += ComposeCancel_Click;
 
             _messageText = rootView.FindViewById<EditText>(Resource.Id.composeText);
-            
+            _messageText.AfterTextChanged += MessageText_AfterTextChanged;
+            _messageText.RequestFocus();
+
             return rootView;
+        }
+
+        private void MessageText_AfterTextChanged(object sender, Android.Text.AfterTextChangedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(_messageText.Text))
+            {
+                _composeSend.Enabled = false;
+            }
+            else
+            {
+                _composeSend.Enabled = true;
+            }
         }
 
         private void ComposeCancel_Click(object sender, EventArgs e)
