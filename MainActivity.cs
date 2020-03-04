@@ -9,6 +9,7 @@ using Android.Support.V4.Widget;
 using Android.Support.V7.App;
 using Android.Views;
 using ShhhSMS.Fragments;
+using SupportFragment = Android.Support.V4.App.Fragment;
 
 namespace ShhhSMS
 {
@@ -16,6 +17,7 @@ namespace ShhhSMS
     public class MainActivity : AppCompatActivity, NavigationView.IOnNavigationItemSelectedListener
     {
         FloatingActionButton fab;
+        NavigationView navigationView;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -32,8 +34,9 @@ namespace ShhhSMS
             drawer.AddDrawerListener(toggle);
             toggle.SyncState();
 
-            NavigationView navigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
+            navigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
             navigationView.SetNavigationItemSelectedListener(this);
+            navigationView.Menu.GetItem(0).SetChecked(true);
 
             var welcomeTransaction = SupportFragmentManager.BeginTransaction();
             welcomeTransaction.Add(Resource.Id.fragment_container, new WelcomeFragment(), "Welcome");
@@ -72,10 +75,10 @@ namespace ShhhSMS
 
         private void FabOnClick(object sender, EventArgs eventArgs)
         {
-            var menuTransaction = SupportFragmentManager.BeginTransaction();
-            menuTransaction.Replace(Resource.Id.fragment_container, new ComposeFragment(), "Compose");
-            menuTransaction.Commit();
+            var composeFragment = new ComposeFragment();
+            composeFragment.OnCancel += ComposeFragment_OnCancel;
 
+            PerformFragmentNavigation(composeFragment, "Compose");
             fab.Visibility = ViewStates.Invisible;
         }
 
@@ -85,38 +88,25 @@ namespace ShhhSMS
 
             if (id == Resource.Id.nav_home)
             {
-                var welcomeTransaction = SupportFragmentManager.BeginTransaction();
-                welcomeTransaction.Replace(Resource.Id.fragment_container, new WelcomeFragment(), "Welcome");
-                welcomeTransaction.Commit();
-
+                PerformFragmentNavigation(new WelcomeFragment(), "Welcome");
                 fab.Visibility = ViewStates.Visible;
             }
             else if (id == Resource.Id.nav_compose)
             {
-                var menuTransaction = SupportFragmentManager.BeginTransaction();
-
                 var composeFragment = new ComposeFragment();
                 composeFragment.OnCancel += ComposeFragment_OnCancel;
 
-                menuTransaction.Replace(Resource.Id.fragment_container, composeFragment, "Compose");
-                menuTransaction.Commit();
-
+                PerformFragmentNavigation(composeFragment, "Compose");
                 fab.Visibility = ViewStates.Invisible;
             }
             else if (id == Resource.Id.nav_reader)
             {
-                var menuTransaction = SupportFragmentManager.BeginTransaction();
-                menuTransaction.Replace(Resource.Id.fragment_container, new ReaderFragment(), "Reader");
-                menuTransaction.Commit();
-
+                PerformFragmentNavigation(new ReaderFragment(), "Reader");
                 fab.Visibility = ViewStates.Visible;
             }
             else if (id == Resource.Id.nav_help)
             {
-                var menuTransaction = SupportFragmentManager.BeginTransaction();
-                menuTransaction.Replace(Resource.Id.fragment_container, new HelpFragment(), "Help");
-                menuTransaction.Commit();
-
+                PerformFragmentNavigation(new HelpFragment(), "Help");
                 fab.Visibility = ViewStates.Visible;
             }
 
@@ -128,11 +118,8 @@ namespace ShhhSMS
         private void ComposeFragment_OnCancel(object sender, EventArgs e)
         {
             // TODO: Need to Set the Selected Menu Item
-            var welcomeTransaction = SupportFragmentManager.BeginTransaction();
-            welcomeTransaction.Replace(Resource.Id.fragment_container, new WelcomeFragment(), "Welcome");
-            welcomeTransaction.Commit();
-
-            fab.Visibility = ViewStates.Visible;
+            navigationView.Menu.GetItem(0).SetChecked(true);
+            PerformFragmentNavigation(new WelcomeFragment(), "Welcome");
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
@@ -140,6 +127,16 @@ namespace ShhhSMS
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
+        private void PerformFragmentNavigation(SupportFragment fragment, string fragmentTag)
+        {
+            var menuTransaction = SupportFragmentManager.BeginTransaction();
+
+            menuTransaction.SetCustomAnimations(Resource.Animation.abc_slide_in_top, Resource.Animation.abc_fade_out);
+
+            menuTransaction.Replace(Resource.Id.fragment_container, fragment, fragmentTag);
+            menuTransaction.Commit();
         }
     }
 }
