@@ -10,7 +10,7 @@ The problem is that if say WhatsApp were to reduce the levels of privacy provide
 
 I've previously written a command line utility that will encrypt text and files using the libSodium encryption library. But while us techies may be comfortable on the Command Line, the general public are not - and privacy should be for everyone.
 
-So, in an effort to demonstrate the futility of hobbling platforms such as WhatsApp, to show that the encryption genie is very much out of the bottle and cannot be put back in.
+So, in an effort to demonstrate the futility of hobbling platforms such as WhatsApp, this project with aim to show that the encryption genie is very much out of the bottle and cannot be put back in.
 
 ## How it works
 
