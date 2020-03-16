@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Android;
 using Android.App;
 using Android.OS;
@@ -20,7 +21,7 @@ namespace ShhhSMS
         FloatingActionButton fab;
         NavigationView navigationView;
 
-        protected override void OnCreate(Bundle savedInstanceState)
+        protected async override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
@@ -49,6 +50,29 @@ namespace ShhhSMS
                 var readerFragment = new ReaderFragment(Intent.GetStringExtra(Android.Content.Intent.ExtraText));
                 PerformFragmentNavigation(readerFragment, "Reader");
             }
+
+            if (await PublicKeyExists() == false)
+            {
+                // Prompt User for Password/PassPhrase
+                var password = "mhallifwwas";
+                var deviceId = Guid.NewGuid().ToString();
+
+                var salt = Sodium.PasswordHash.ScryptGenerateSalt();
+
+                var keySeed = Sodium.PasswordHash.ScryptHashBinary(password, "949eed672cc12d84f82861b587f0fa71");
+
+                var keyPair = Sodium.PublicKeyAuth.GenerateKeyPair(keySeed);
+
+                var dsc = 1;
+            }
+
+
+        }
+
+        private async Task<bool> PublicKeyExists()
+        {
+            var publicKey = await Xamarin.Essentials.SecureStorage.GetAsync("public_key");
+            return publicKey != null;
         }
 
         public override void OnBackPressed()
