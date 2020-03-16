@@ -69,6 +69,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
+    <AndroidNativeLibrary Include="Resources\lib\armeabi-v7a\libsodium.so" />
+    <AndroidNativeLibrary Include="Resources\lib\arm64-v8a\libsodium.so" />
+    <AndroidNativeLibrary Include="Resources\lib\x86\libsodium.so" />
+    <AndroidNativeLibrary Include="Resources\lib\x86_64\libsodium.so" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\activity_main.xml">
@@ -118,6 +122,9 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\ic_launcher_round.png" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Sodium.Xamarin">
+      <Version>0.0.4</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.Android.Support.Design" Version="28.0.0.3" />
     <PackageReference Include="Xamarin.Android.Support.Core.Utils" Version="28.0.0.3" />
     <PackageReference Include="Xamarin.Android.Support.CustomTabs" Version="28.0.0.3" />
