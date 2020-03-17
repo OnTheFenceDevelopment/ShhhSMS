@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Threading.Tasks;
 using Android;
 using Android.App;
@@ -51,22 +52,41 @@ namespace ShhhSMS
                 PerformFragmentNavigation(readerFragment, "Reader");
             }
 
-            if (await PublicKeyExists() == false)
+            // TODO: Need to Determine whether user needs to be logged in or not
+            // For now - will just do it!
+
+            var application = (Application as ShhhSMSApplication);
+
+            if (application.LoginRequired)
             {
-                // Prompt User for Password/PassPhrase
-                var password = "mhallifwwas";
-                var deviceId = Guid.NewGuid().ToString();
-
-                var salt = Sodium.PasswordHash.ScryptGenerateSalt();
-
-                var keySeed = Sodium.PasswordHash.ScryptHashBinary(password, "949eed672cc12d84f82861b587f0fa71");
-
-                var keyPair = Sodium.PublicKeyAuth.GenerateKeyPair(keySeed);
-
-                var dsc = 1;
+                PerformFragmentNavigation(new LoginFragment(), "Login");
+                fab.Visibility = ViewStates.Invisible;
             }
 
+            //if (await PublicKeyExists() == false)
+            //{
+            //    // Prompt User for Password/PassPhrase
+            //    var password = "mhallifwwas";
 
+            //    // Generate and Save Device ID
+            //    var deviceId = Guid.NewGuid().ToString();
+
+            //    var passwordBytes = Sodium.GenericHash.Hash(password, deviceId, 32);
+
+            //    var keyPair = Sodium.PublicKeyBox.GenerateKeyPair(passwordBytes);
+
+            //    (Application as ShhhSMSApplication).PrivateKey = keyPair.PrivateKey;
+
+            //    // One Time Nonce - needs to be included in MEssage
+            //    var nonce = Sodium.PublicKeyBox.GenerateNonce();
+
+            //    var enc = Sodium.PublicKeyBox.Create("Hello ShhhSMS", nonce, keyPair.PrivateKey, keyPair.PublicKey);
+            //    var dec = Sodium.PublicKeyBox.Open(enc, nonce, keyPair.PrivateKey, keyPair.PublicKey);
+
+            //    var blah = Encoding.UTF8.GetString(dec);
+            //}
+
+            //var foo = Sodium.SodiumCore.SodiumVersionString();
         }
 
         private async Task<bool> PublicKeyExists()
@@ -77,7 +97,7 @@ namespace ShhhSMS
 
         public override void OnBackPressed()
         {
-            DrawerLayout drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
+            var drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
             if(drawer.IsDrawerOpen(GravityCompat.Start))
             {
                 drawer.CloseDrawer(GravityCompat.Start);
