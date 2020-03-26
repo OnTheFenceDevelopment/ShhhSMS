@@ -11,7 +11,7 @@ namespace ShhhSMS.Fragments
         private string _messageText;
 
         // TODO: Replace with IOC
-        EncryptionService encryptionService;
+        IEncryptionService encryptionService;
 
         public ReaderFragment()
         {

@@ -68,6 +68,7 @@
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\EncryptionService.cs" />
+    <Compile Include="Services\IEncryptionService.cs" />
     <Compile Include="ShhhSMSApplication.cs" />
     <Compile Include="Fragments\LoginFragment.cs" />
   </ItemGroup>

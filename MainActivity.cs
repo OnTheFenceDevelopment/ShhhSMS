@@ -55,22 +55,12 @@ namespace ShhhSMS
                 PerformFragmentNavigation(readerFragment, "Reader");
             }
 
-            // TODO: Need to Determine whether user needs to be logged in or not
-            // For now - will just do it!
-
             encryptionService = new EncryptionService();
-
             if (await encryptionService.PasswordExists() == false)
             {
                 PerformFragmentNavigation(new LoginFragment(), "Login");
                 fab.Visibility = ViewStates.Invisible;
             }
-        }
-
-        private async Task<bool> PublicKeyExists()
-        {
-            var publicKey = await Xamarin.Essentials.SecureStorage.GetAsync("public_key");
-            return publicKey != null;
         }
 
         public override void OnBackPressed()

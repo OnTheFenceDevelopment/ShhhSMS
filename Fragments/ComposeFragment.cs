@@ -18,7 +18,7 @@ namespace ShhhSMS.Fragments
         public event EventHandler OnCancel;
 
         // TODO: Replace with IOC
-        EncryptionService encryptionService;
+        IEncryptionService encryptionService;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
