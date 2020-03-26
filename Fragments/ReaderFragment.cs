@@ -2,6 +2,7 @@
 using Android.OS;
 using Android.Views;
 using Android.Widget;
+using ShhhSMS.Services;
 
 namespace ShhhSMS.Fragments
 {
@@ -9,13 +10,21 @@ namespace ShhhSMS.Fragments
     {
         private string _messageText;
 
+        // TODO: Replace with IOC
+        EncryptionService encryptionService;
+
         public ReaderFragment()
         {
+            encryptionService = new EncryptionService();
+
             _messageText = "No Message";
         }
 
         public ReaderFragment(string messageText)
         {
+
+            encryptionService = new EncryptionService();
+
             _messageText = messageText;
         }
 
@@ -29,7 +38,7 @@ namespace ShhhSMS.Fragments
             var rootView = inflater.Inflate(Resource.Layout.reader, container, false);
 
             var messageText = rootView.FindViewById<TextView>(Resource.Id.messageText);
-            messageText.Text = _messageText;
+            messageText.Text = encryptionService.DecryptMessage(_messageText).GetAwaiter().GetResult();
 
             return rootView;
         }
