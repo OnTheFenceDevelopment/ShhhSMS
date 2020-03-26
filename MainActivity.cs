@@ -23,7 +23,7 @@ namespace ShhhSMS
         NavigationView navigationView;
 
         // TODO: Replace with IOC
-        EncryptionService encryptionService;
+        IEncryptionService encryptionService;
 
         protected async override void OnCreate(Bundle savedInstanceState)
         {
@@ -65,29 +65,6 @@ namespace ShhhSMS
                 PerformFragmentNavigation(new LoginFragment(), "Login");
                 fab.Visibility = ViewStates.Invisible;
             }
-
-            //if (await PublicKeyExists() == false)
-            //{
-            //    // Prompt User for Password/PassPhrase
-            //    var password = "mhallifwwas";
-
-            //    // Generate and Save Device ID
-            //    var deviceId = Guid.NewGuid().ToString();
-
-            //    var passwordBytes = Sodium.GenericHash.Hash(password, deviceId, 32);
-
-            //    var keyPair = Sodium.PublicKeyBox.GenerateKeyPair(passwordBytes);
-
-            //    // One Time Nonce - needs to be included in Message
-            //    var nonce = Sodium.PublicKeyBox.GenerateNonce();
-
-            //    var enc = Sodium.PublicKeyBox.Create("Hello ShhhSMS", nonce, keyPair.PrivateKey, keyPair.PublicKey);
-            //    var dec = Sodium.PublicKeyBox.Open(enc, nonce, keyPair.PrivateKey, keyPair.PublicKey);
-
-            //    var blah = Encoding.UTF8.GetString(dec);
-            //}
-
-            //var foo = Sodium.SodiumCore.SodiumVersionString();
         }
 
         private async Task<bool> PublicKeyExists()

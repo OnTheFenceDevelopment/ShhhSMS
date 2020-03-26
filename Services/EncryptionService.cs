@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ShhhSMS.Services
 {
-    public class EncryptionService
+    public class EncryptionService : IEncryptionService
     {
         public async Task<bool> PublicKeyExists()
         {
