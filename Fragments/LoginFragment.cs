@@ -4,6 +4,7 @@ using Android.OS;
 using Android.Views;
 using Android.Widget;
 using AlertDialog = Android.App.AlertDialog;
+using ShhhSMS.Services;
 
 namespace ShhhSMS.Fragments
 {
@@ -17,9 +18,25 @@ namespace ShhhSMS.Fragments
         private string publicKey;
         private string deviceId;
 
+        private string loginMessageText;
+
+        // TODO: Replace with IOC
+        EncryptionService encryptionService;
+
         public async override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+
+            encryptionService = new EncryptionService();
+
+            if (await encryptionService.PublicKeyExists())
+            {
+                loginMessageText = "Public Key Does Not Exist";
+            }
+            else
+            {
+                loginMessageText = "Public Key Exists";
+            }
 
             publicKey = await Xamarin.Essentials.SecureStorage.GetAsync("public_key");
             deviceId = await Xamarin.Essentials.SecureStorage.GetAsync("deviceId");
@@ -42,15 +59,7 @@ namespace ShhhSMS.Fragments
 
             // TODO: Set message based on Key status (different for first and subsequent logins)
             loginMessage = rootView.FindViewById<TextView>(Resource.Id.loginMessage);
-
-            if (string.IsNullOrWhiteSpace(publicKey))
-            {
-                loginMessage.Text = "Public Key Does Not Exist";
-            }
-            else
-            {
-                loginMessage.Text = "Public Key Exists";
-            }
+            loginMessage.Text = loginMessageText;
 
             return rootView;
         }
@@ -77,19 +86,8 @@ namespace ShhhSMS.Fragments
             if (string.IsNullOrWhiteSpace(publicKey))
             {
                 // No Public Key Present - Store 
-                await Xamarin.Essentials.SecureStorage.SetAsync("public_key", Convert.ToBase64String(keyPair.PublicKey));
-
-                var application = Activity.Application as ShhhSMSApplication;
-
-                if (application.Password != null)
-                {
-                    application.Password.Clear();
-                }
-
-                foreach (var character in userPassword.Text.ToCharArray())
-                {
-                    application.Password.AppendChar(character);
-                }
+                await encryptionService.SetPublicKey(Convert.ToBase64String(keyPair.PublicKey));
+                await encryptionService.SetPassword(userPassword.Text);
 
                 Toast.MakeText(Activity, "Encryption Keys Generated", ToastLength.Long).Show();
                 NavigateToWelcome();

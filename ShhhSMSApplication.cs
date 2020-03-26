@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Security;
 using Android.App;
 using Android.Runtime;
 
@@ -24,24 +23,13 @@ namespace ShhhSMS
                 deviceId = Guid.NewGuid().ToString();
                 await Xamarin.Essentials.SecureStorage.SetAsync("deviceId", deviceId);
             }
-
-            Password = new SecureString();
         }
 
         public override void OnTerminate()
         {
-            if (Password != null)
-            {
-                // TODO: Should the Activity do this?
-                Password.Dispose();
-                Password = null;
-            }
+            // TODO: Remove Password from Secure Storage
 
             base.OnTerminate();
         }
-
-        public bool LoginRequired => Password.Length == 0;
-
-        public SecureString Password { get; private set; }
     }
 }

@@ -2,6 +2,7 @@
 using Android.Support.V4.App;
 using Android.Views;
 using Android.Widget;
+using ShhhSMS.Services;
 using System;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
@@ -16,9 +17,14 @@ namespace ShhhSMS.Fragments
 
         public event EventHandler OnCancel;
 
+        // TODO: Replace with IOC
+        EncryptionService encryptionService;
+
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+
+            encryptionService = new EncryptionService();
         }
 
         private async void ComposeSend_Click(object sender, System.EventArgs e)
@@ -68,7 +74,11 @@ namespace ShhhSMS.Fragments
         {
             try
             {
-                var message = new SmsMessage(messageText, new[] { recipient });
+                // TODO: Need to Encrypt the message and pass the result to Sms
+                var encryptedMessage = await encryptionService.EncryptMessage(messageText);
+
+                var message = new SmsMessage(encryptedMessage.ToString(), new[] { recipient });
+
                 await Sms.ComposeAsync(message);
             }
             catch (FeatureNotSupportedException ex)

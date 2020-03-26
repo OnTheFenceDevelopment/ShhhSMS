@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 using System.Threading.Tasks;
 using Android;
 using Android.App;
@@ -11,6 +10,7 @@ using Android.Support.V4.Widget;
 using Android.Support.V7.App;
 using Android.Views;
 using ShhhSMS.Fragments;
+using ShhhSMS.Services;
 using SupportFragment = Android.Support.V4.App.Fragment;
 
 namespace ShhhSMS
@@ -21,6 +21,9 @@ namespace ShhhSMS
     {
         FloatingActionButton fab;
         NavigationView navigationView;
+
+        // TODO: Replace with IOC
+        EncryptionService encryptionService;
 
         protected async override void OnCreate(Bundle savedInstanceState)
         {
@@ -55,9 +58,9 @@ namespace ShhhSMS
             // TODO: Need to Determine whether user needs to be logged in or not
             // For now - will just do it!
 
-            var application = (Application as ShhhSMSApplication);
+            encryptionService = new EncryptionService();
 
-            if (application.LoginRequired)
+            if (await encryptionService.PasswordExists() == false)
             {
                 PerformFragmentNavigation(new LoginFragment(), "Login");
                 fab.Visibility = ViewStates.Invisible;
@@ -75,9 +78,7 @@ namespace ShhhSMS
 
             //    var keyPair = Sodium.PublicKeyBox.GenerateKeyPair(passwordBytes);
 
-            //    (Application as ShhhSMSApplication).PrivateKey = keyPair.PrivateKey;
-
-            //    // One Time Nonce - needs to be included in MEssage
+            //    // One Time Nonce - needs to be included in Message
             //    var nonce = Sodium.PublicKeyBox.GenerateNonce();
 
             //    var enc = Sodium.PublicKeyBox.Create("Hello ShhhSMS", nonce, keyPair.PrivateKey, keyPair.PublicKey);
