@@ -1,17 +1,17 @@
-﻿using System;
-using System.Threading.Tasks;
-using Android;
-using Android.App;
+﻿using Android.App;
 using Android.OS;
 using Android.Runtime;
-using Android.Support.Design.Widget;
-using Android.Support.V4.View;
-using Android.Support.V4.Widget;
-using Android.Support.V7.App;
 using Android.Views;
+using AndroidX.AppCompat.App;
+using AndroidX.Core.View;
+using AndroidX.DrawerLayout.Widget;
+using Google.Android.Material.FloatingActionButton;
+
+using Google.Android.Material.Navigation;
 using ShhhSMS.Fragments;
 using ShhhSMS.Services;
-using SupportFragment = Android.Support.V4.App.Fragment;
+using System;
+using SupportFragment = AndroidX.Fragment.App.Fragment;
 
 namespace ShhhSMS
 {
@@ -30,7 +30,8 @@ namespace ShhhSMS
             base.OnCreate(savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             SetContentView(Resource.Layout.activity_main);
-            Android.Support.V7.Widget.Toolbar toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
+            
+            AndroidX.AppCompat.Widget.Toolbar toolbar = FindViewById<AndroidX.AppCompat.Widget.Toolbar>(Resource.Id.toolbar);
             SetSupportActionBar(toolbar);
 
             fab = FindViewById<FloatingActionButton>(Resource.Id.fab);

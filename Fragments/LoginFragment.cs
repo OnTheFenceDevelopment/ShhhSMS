@@ -1,10 +1,10 @@
 ﻿using System;
-using Android.Support.V4.App;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
 using AlertDialog = Android.App.AlertDialog;
 using ShhhSMS.Services;
+using AndroidX.Fragment.App;
 
 namespace ShhhSMS.Fragments
 {
