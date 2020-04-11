@@ -38,8 +38,8 @@ namespace ShhhSMS.Fragments
                 loginMessageText = "Public Key Exists";
             }
 
-            publicKey = await Xamarin.Essentials.SecureStorage.GetAsync("public_key");
-            deviceId = await Xamarin.Essentials.SecureStorage.GetAsync("deviceId");
+            publicKey = await Xamarin.Essentials.SecureStorage.GetAsync(Constants.Identifiers.PublicKey);
+            deviceId = await Xamarin.Essentials.SecureStorage.GetAsync(Constants.Identifiers.DeviceId);
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)

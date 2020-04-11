@@ -9,24 +9,24 @@ namespace ShhhSMS.Services
     {
         public async Task<bool> PublicKeyExists()
         {
-            return await Xamarin.Essentials.SecureStorage.GetAsync("public_key") != null;
+            return await Xamarin.Essentials.SecureStorage.GetAsync(Constants.Identifiers.PublicKey) != null;
         }
 
         public async Task SetPublicKey(string publicKey)
         {
-            await Xamarin.Essentials.SecureStorage.SetAsync("public_key", publicKey);
+            await Xamarin.Essentials.SecureStorage.SetAsync(Constants.Identifiers.PublicKey, publicKey);
         }
 
         public async Task<bool> PasswordExists()
         {
-            var foo = await Xamarin.Essentials.SecureStorage.GetAsync("user_pwd");
+            var foo = await Xamarin.Essentials.SecureStorage.GetAsync(Constants.Identifiers.UserPassword);
 
             return foo != null;
         }
 
         public async Task SetPassword(string password)
         {
-            await Xamarin.Essentials.SecureStorage.SetAsync("user_pwd", password);
+            await Xamarin.Essentials.SecureStorage.SetAsync(Constants.Identifiers.UserPassword, password);
         }
 
         public async Task<EncryptedPackage> EncryptMessage(string message)
@@ -63,9 +63,9 @@ namespace ShhhSMS.Services
 
         private async Task<Sodium.KeyPair> GenerateKeyPair()
         {
-            var password = await Xamarin.Essentials.SecureStorage.GetAsync("user_pwd");
-            var publicKey = await Xamarin.Essentials.SecureStorage.GetAsync("public_key");
-            var deviceId = await Xamarin.Essentials.SecureStorage.GetAsync("deviceId");
+            var password = await Xamarin.Essentials.SecureStorage.GetAsync(Constants.Identifiers.UserPassword);
+            var publicKey = await Xamarin.Essentials.SecureStorage.GetAsync(Constants.Identifiers.PublicKey);
+            var deviceId = await Xamarin.Essentials.SecureStorage.GetAsync(Constants.Identifiers.DeviceId);
 
             var passwordBytes = Sodium.GenericHash.Hash(password.ToString(), deviceId, 32);
             var keyPair = Sodium.PublicKeyBox.GenerateKeyPair(passwordBytes);
