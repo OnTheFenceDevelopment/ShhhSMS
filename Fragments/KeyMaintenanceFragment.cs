@@ -22,7 +22,7 @@ namespace ShhhSMS.Fragments
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            var rootView = inflater.Inflate(Resource.Layout.compose, container, false);
+            var rootView = inflater.Inflate(Resource.Layout.key_maintenance, container, false);
 
             // Resolve and Wire up controls
 

@@ -31,11 +31,11 @@ namespace ShhhSMS.Fragments
 
             if (await encryptionService.PublicKeyExists())
             {
-                loginMessageText = "Public Key Does Not Exist";
+                loginMessageText = "Public Key Exists";
             }
             else
             {
-                loginMessageText = "Public Key Exists";
+                loginMessageText = "Public Key Does Not Exist";
             }
 
             publicKey = await Xamarin.Essentials.SecureStorage.GetAsync(Constants.Identifiers.PublicKey);
