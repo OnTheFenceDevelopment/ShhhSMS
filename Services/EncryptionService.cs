@@ -77,5 +77,13 @@ namespace ShhhSMS.Services
 
             return null;
         }
+
+        public async Task<string> GetQRCodeContent()
+        {
+            var contactId = await Xamarin.Essentials.SecureStorage.GetAsync(Constants.Identifiers.ContactId);
+            var publicKey = await Xamarin.Essentials.SecureStorage.GetAsync(Constants.Identifiers.PublicKey);
+
+            return $"{contactId}|{publicKey}";
+        }
     }
 }

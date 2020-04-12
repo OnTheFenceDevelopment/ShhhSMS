@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using AndroidX.Fragment.App;
-using Android.Content;
 using Android.OS;
-using Android.Runtime;
-using Android.Util;
 using Android.Views;
 using Android.Widget;
+using ShhhSMS.Services;
 
 namespace ShhhSMS.Fragments
 {
@@ -17,9 +12,14 @@ namespace ShhhSMS.Fragments
     {
         public Button _sharePublicKey;
 
+        // TODO: Replace with IOC
+        IEncryptionService encryptionService;
+
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+
+            encryptionService = new EncryptionService();
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -29,29 +29,28 @@ namespace ShhhSMS.Fragments
             _sharePublicKey = rootView.FindViewById<Button>(Resource.Id.sharePublicKey);
             _sharePublicKey.Click += SharePublicKey_Click;
 
-            // Resolve and Wire up controls
-
             return rootView;
         }
 
-        private void SharePublicKey_Click(object sender, EventArgs e)
+        private async void SharePublicKey_Click(object sender, EventArgs e)
         {
-            FragmentTransaction ft = ParentFragmentManager.BeginTransaction();
+            var fragmentTransaction = ParentFragmentManager.BeginTransaction();
 
-            //Remove fragment else it will crash as it is already added to backstack
-            Fragment prev = ParentFragmentManager.FindFragmentByTag("dialog");
+            // Remove fragment else it will crash as it is already added to backstack
+            var prev = ParentFragmentManager.FindFragmentByTag("publicKeyDialog");
+
             if (prev != null)
             {
-                ft.Remove(prev);
+                fragmentTransaction.Remove(prev);
             }
 
-            ft.AddToBackStack(null);
+            fragmentTransaction.AddToBackStack(null);
 
-            // Create and show the dialog.
-            var newFragment = new SharePublicKeyDialogFragment();
+            // Create and show the dialog
+            var newFragment = new SharePublicKeyDialogFragment(await encryptionService.GetQRCodeContent());
 
             //Add fragment
-            newFragment.Show(ft, "dialog");
+            newFragment.Show(fragmentTransaction, "publicKeyDialog");
         }
     }
 }

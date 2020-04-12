@@ -8,5 +8,12 @@
         android:gravity="center_horizontal"
 		android:minWidth="25px"
 		android:minHeight="25px" />
-
+    
+    <ImageView  
+        android:layout_centerHorizontal="true"
+        android:contentDescription="QR Code"
+        android:layout_marginTop="10dp"  
+        android:id="@+id/publicKeyQRCode" 
+        android:layout_width="wrap_content"  
+        android:layout_height="wrap_content"/>  
 </LinearLayout>
