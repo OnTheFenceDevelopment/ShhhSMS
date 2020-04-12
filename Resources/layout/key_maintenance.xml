@@ -3,6 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <TextView
         android:text="Key Maintenance"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -12,5 +13,11 @@
         android:minWidth="25px"
         android:minHeight="25px"
         android:id="@+id/textView1" />
+
+	<Button
+		android:text="@string/share_public_key"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:id="@+id/sharePublicKey"/>
 
 </LinearLayout>
