@@ -3,27 +3,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_home"
-            android:icon="@android:drawable/ic_menu_mylocation"
-            android:title="Home" />
-        <item
-            android:id="@+id/nav_compose"
-            android:icon="@android:drawable/ic_menu_edit"
-            android:title="Compose" />
-        <item
-            android:id="@+id/nav_reader"
-            android:icon="@android:drawable/ic_menu_view"
-            android:title="Reader" />
-      <item
-            android:id="@+id/nav_key_maintenance"
-            android:icon="@mipmap/ic_menu_key"
-            android:title="Key Maintenance" />
-        <item
-            android:id="@+id/nav_help"
-            android:icon="@android:drawable/ic_menu_help"
-            android:title="Help" />
-    </group>
+  <group android:checkableBehavior="single">
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@android:drawable/ic_menu_mylocation"
+        android:title="Home" />
+    <item
+        android:id="@+id/nav_compose"
+        android:icon="@android:drawable/ic_menu_edit"
+        android:title="Compose" />
+    <item
+        android:id="@+id/nav_reader"
+        android:icon="@android:drawable/ic_menu_view"
+        android:title="Reader" />
+    <item
+          android:id="@+id/nav_contact_management"
+          android:icon="@mipmap/ic_menu_contacts"
+          android:title="Contacts" />
+    <item
+          android:id="@+id/nav_key_maintenance"
+          android:icon="@mipmap/ic_menu_key"
+          android:title="Key Maintenance" />
+    <item
+        android:id="@+id/nav_help"
+        android:icon="@android:drawable/ic_menu_help"
+        android:title="Help" />
+  </group>
 
 </menu>

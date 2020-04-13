@@ -135,6 +135,11 @@ namespace ShhhSMS
                 PerformFragmentNavigation(new KeyMaintenanceFragment(), "Key Maintenance");
                 fab.Visibility = ViewStates.Invisible;
             }
+            else if(id == Resource.Id.nav_contact_management)
+            {
+                PerformFragmentNavigation(new ContactMaintenanceFragment(), "Contacts");
+                fab.Visibility = ViewStates.Invisible;
+            }
 
             DrawerLayout drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
             drawer.CloseDrawer(GravityCompat.Start);
