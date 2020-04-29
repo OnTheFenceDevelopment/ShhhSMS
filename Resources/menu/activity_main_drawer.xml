@@ -13,10 +13,6 @@
         android:icon="@android:drawable/ic_menu_edit"
         android:title="Compose" />
     <item
-        android:id="@+id/nav_reader"
-        android:icon="@android:drawable/ic_menu_view"
-        android:title="Reader" />
-    <item
           android:id="@+id/nav_contact_management"
           android:icon="@mipmap/ic_menu_contacts"
           android:title="Contacts" />

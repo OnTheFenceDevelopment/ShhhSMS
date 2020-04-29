@@ -166,6 +166,9 @@ namespace ShhhSMS
             menuTransaction.SetCustomAnimations(Resource.Animation.abc_slide_in_top, Resource.Animation.abc_fade_out);
 
             menuTransaction.Replace(Resource.Id.fragment_container, fragment, fragmentTag);
+            
+            menuTransaction.AddToBackStack(null);   // Name??
+
             menuTransaction.Commit();
         }
     }
