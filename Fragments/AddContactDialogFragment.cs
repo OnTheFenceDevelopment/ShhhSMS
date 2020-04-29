@@ -4,6 +4,8 @@ using Android.Widget;
 using AndroidX.Fragment.App;
 using AlertDialog = Android.App.AlertDialog;
 using System;
+using ShhhSMS.Services;
+using ShhhSMS.Models;
 
 namespace ShhhSMS.Fragments
 {
@@ -43,9 +45,16 @@ namespace ShhhSMS.Fragments
 
         private void Save_Click(object sender, EventArgs e)
         {
-            // TODO: Need to Save Contact to 'Local Store' (json file?)
+            // Read Existing Contact 'store'
+            var contactService = new ContactService();
+            var contact = new Contact { Id = _contactId.ToString(), Name = _newContactName.Text, PublicKey = _publicKey };
 
-            Toast.MakeText(Activity, "Saving..!!", ToastLength.Long).Show();
+            var success = contactService.SaveContact(contact);
+
+            if (success)
+                Toast.MakeText(Activity, "Save Successful", ToastLength.Long).Show();
+            else
+                Toast.MakeText(Activity, "Save Failed..!!", ToastLength.Long).Show();
 
             Dismiss();
         }

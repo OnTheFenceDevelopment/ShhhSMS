@@ -5,12 +5,18 @@ using Android.OS;
 using Android.Views;
 using Android.Widget;
 using Android.Content;
+using ShhhSMS.Services;
+using System.Linq;
 
 namespace ShhhSMS.Fragments
 {
     public class ContactMaintenanceFragment : Fragment
     {
         private Button _addContact;
+        private ListView _contactList;
+
+        // TODO: Replace with IoC
+        private IContactService _contactService;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -22,6 +28,12 @@ namespace ShhhSMS.Fragments
             var rootView = inflater.Inflate(Resource.Layout.contact_maintenance, container, false);
             _addContact = rootView.FindViewById<Button>(Resource.Id.addContact);
             _addContact.Click += AddContact_Click;
+
+            _contactService = new ContactService();
+            var existingContacts = _contactService.GetContacts();
+
+            _contactList = rootView.FindViewById<ListView>(Resource.Id.contactList);
+            _contactList.Adapter = new ArrayAdapter<string>(Activity, Android.Resource.Layout.SimpleListItem1, existingContacts.Select(x => x.Name).ToList());
 
             return rootView;
         }
@@ -67,7 +79,7 @@ namespace ShhhSMS.Fragments
 
             newFragment.Arguments = dataBundle;
 
-            //Add fragment
+            // Add fragment
             newFragment.Show(fragmentTransaction, "addContactDialog");
         }
 
@@ -79,7 +91,6 @@ namespace ShhhSMS.Fragments
             {
                 // Ensure Dialog is removed from backstack etc
                 var prev = ParentFragmentManager.FindFragmentByTag("scanContactDialog");
-                var cunt = ChildFragmentManager.Fragments;
                 if (prev != null)
                 {
                     var fragmentTransaction = ParentFragmentManager.BeginTransaction();
@@ -89,7 +100,7 @@ namespace ShhhSMS.Fragments
 
                 if (resultCode == Constants.Successful_Public_Key_Scan)
                 {
-                    // TODO: Pull Data elements and pass to Add Contact Dialog
+                    // Pull Data elements and pass to Add Contact Dialog
                     var contactId = data.GetStringExtra("contactId");
                     var publicKey = data.GetStringExtra("publicKey");
 
@@ -106,7 +117,7 @@ namespace ShhhSMS.Fragments
             }
             else if (requestCode == Constants.Add_Contact_Request_Code)
             {
-
+                var foo = 1;
             }
         }
     }

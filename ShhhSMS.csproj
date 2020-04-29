@@ -69,11 +69,14 @@
     <Compile Include="Fragments\ScanPublicKeyDialogFragment.cs" />
     <Compile Include="Fragments\WelcomeFragment.cs" />
     <Compile Include="MainActivity.cs" />
+    <Compile Include="Models\Contact.cs" />
     <Compile Include="Models\EncryptedPackage.cs" />
     <Compile Include="Models\ZXingScannerFragment.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ContactService.cs" />
     <Compile Include="Services\EncryptionService.cs" />
+    <Compile Include="Services\IContactService.cs" />
     <Compile Include="Services\IEncryptionService.cs" />
     <Compile Include="ShhhSMSApplication.cs" />
     <Compile Include="Fragments\LoginFragment.cs" />
@@ -146,6 +149,9 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>12.0.3</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.Google.Android.Material" Version="1.1.0-rc3" />
     <PackageReference Include="Xamarin.AndroidX.Legacy.Support.Core.Utils" Version="1.0.0" />
     <PackageReference Include="Xamarin.AndroidX.Browser" Version="1.2.0" />
