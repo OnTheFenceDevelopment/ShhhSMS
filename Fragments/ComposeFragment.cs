@@ -104,7 +104,7 @@ namespace ShhhSMS.Fragments
             try
             {
                 // Need to Encrypt the message using recipients Public Key and pass the result to Sms
-                var encryptedMessage = await encryptionService.EncryptMessage(messageText, _selectedContact.Id, _selectedContact.PublicKey);
+                var encryptedMessage = await encryptionService.EncryptMessage(messageText, _selectedContact.PublicKey);
 
                 var message = new SmsMessage { Body = encryptedMessage.ToString() };
 

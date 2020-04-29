@@ -19,9 +19,9 @@ namespace ShhhSMS.Services
 
         public async Task<bool> PasswordExists()
         {
-            var foo = await Xamarin.Essentials.SecureStorage.GetAsync(Constants.Identifiers.UserPassword);
+            var userPassword = await Xamarin.Essentials.SecureStorage.GetAsync(Constants.Identifiers.UserPassword);
 
-            return foo != null;
+            return userPassword != null;
         }
 
         public async Task SetPassword(string password)
@@ -29,7 +29,7 @@ namespace ShhhSMS.Services
             await Xamarin.Essentials.SecureStorage.SetAsync(Constants.Identifiers.UserPassword, password);
         }
 
-        public async Task<EncryptedPackage> EncryptMessage(string message, string recipientId, string recipientsPublicKey)
+        public async Task<EncryptedPackage> EncryptMessage(string message, string recipientsPublicKey)
         {
             // One Time Nonce - needs to be included in Message
             var nonce = Sodium.PublicKeyBox.GenerateNonce();
@@ -37,29 +37,21 @@ namespace ShhhSMS.Services
             // Generate Users Key Pair (to access Private Key)
             var keyPair = await GenerateKeyPair();
 
+            // Get own Contact Id
+            var contactId = await GetContactId();
+
             // Encrypt Message
             var encryptedMessage = Sodium.PublicKeyBox.Create(message, nonce, keyPair.PrivateKey, Convert.FromBase64String(recipientsPublicKey));
 
-            return new EncryptedPackage(encryptedMessage, nonce, recipientId);
+            return new EncryptedPackage(encryptedMessage, nonce, contactId);
         }
 
-        public async Task<string> DecryptMessage(string message)
+        public async Task<string> DecryptMessage(DecryptionPackage decryptionPackage)
         {
-            // One Time Nonce - needs to be included in Message
-            var packetElements = message.Split("|");
-            var publicKey = packetElements[0];
-            var nonce = packetElements[1];
-            var encryptedMessage = packetElements[2];
-
             var keyPair = await GenerateKeyPair();
 
             var decryptedMessage = Sodium.PublicKeyBox
-                .Open(
-                    Convert.FromBase64String(encryptedMessage),
-                    Convert.FromBase64String(nonce),
-                    keyPair.PrivateKey,
-                    Convert.FromBase64String(publicKey)
-                );
+                .Open(decryptionPackage.Message, decryptionPackage.Nonce, keyPair.PrivateKey, decryptionPackage.PublicKey);
 
             return Encoding.UTF8.GetString(decryptedMessage);
         }
@@ -79,6 +71,12 @@ namespace ShhhSMS.Services
             }
 
             return null;
+        }
+
+        private async Task<string> GetContactId()
+        {
+            var deviceId = await Xamarin.Essentials.SecureStorage.GetAsync(Constants.Identifiers.ContactId);
+            return deviceId;
         }
 
         public async Task<string> GetQRCodeContent()

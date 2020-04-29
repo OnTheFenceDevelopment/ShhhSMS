@@ -70,6 +70,7 @@
     <Compile Include="Fragments\WelcomeFragment.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Models\Contact.cs" />
+    <Compile Include="Models\DecryptionPackage.cs" />
     <Compile Include="Models\EncryptedPackage.cs" />
     <Compile Include="Models\ZXingScannerFragment.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
