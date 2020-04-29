@@ -4,6 +4,9 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+
+
     <TextView
         android:text="Compose Message"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -13,6 +16,11 @@
         android:minHeight="25px"
         android:gravity="center"
         android:id="@+id/composeHolding" />
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/composeContactSelector" />
 
     <EditText
         android:inputType="textMultiLine"

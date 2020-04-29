@@ -29,15 +29,18 @@ namespace ShhhSMS.Services
             await Xamarin.Essentials.SecureStorage.SetAsync(Constants.Identifiers.UserPassword, password);
         }
 
-        public async Task<EncryptedPackage> EncryptMessage(string message)
+        public async Task<EncryptedPackage> EncryptMessage(string message, string recipientId, string recipientsPublicKey)
         {
             // One Time Nonce - needs to be included in Message
             var nonce = Sodium.PublicKeyBox.GenerateNonce();
+            
+            // Generate Users Key Pair (to access Private Key)
             var keyPair = await GenerateKeyPair();
 
-            var encryptedMessage = Sodium.PublicKeyBox.Create(message, nonce, keyPair.PrivateKey, keyPair.PublicKey);
+            // Encrypt Message
+            var encryptedMessage = Sodium.PublicKeyBox.Create(message, nonce, keyPair.PrivateKey, Convert.FromBase64String(recipientsPublicKey));
 
-            return new EncryptedPackage(encryptedMessage, nonce, keyPair.PublicKey);
+            return new EncryptedPackage(encryptedMessage, nonce, recipientId);
         }
 
         public async Task<string> DecryptMessage(string message)

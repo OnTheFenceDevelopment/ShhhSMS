@@ -3,8 +3,11 @@
 using Android.Views;
 using Android.Widget;
 using AndroidX.Fragment.App;
+using ShhhSMS.Models;
 using ShhhSMS.Services;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 
@@ -15,23 +18,31 @@ namespace ShhhSMS.Fragments
         private Button _composeSend;
         private Button _composeCancel;
         private EditText _messageText;
+        private Spinner _contactSelector;
+
+        private Contact _selectedContact;
 
         public event EventHandler OnCancel;
 
         // TODO: Replace with IOC
         IEncryptionService encryptionService;
+        IContactService contactService;
+
+        private List<Contact> _contacts;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
             encryptionService = new EncryptionService();
+            contactService = new ContactService();
+            _contacts = contactService.GetContacts();
+            _contacts.Insert(0, new Contact { Id = Guid.Empty.ToString(), Name = "Select Recipient", PublicKey = string.Empty });
         }
 
         private async void ComposeSend_Click(object sender, System.EventArgs e)
         {
-            // TODO: Recipient Number Selection
-            await SendSms(_messageText.Text, "07791652684");
+            await SendSms(_messageText.Text);
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -50,12 +61,29 @@ namespace ShhhSMS.Fragments
             _messageText.AfterTextChanged += MessageText_AfterTextChanged;
             _messageText.RequestFocus();
 
+            _contactSelector = rootView.FindViewById<Spinner>(Resource.Id.composeContactSelector);
+            _contactSelector.ItemSelected += ContactSelector_ItemSelected;
+            _contactSelector.Adapter = new ArrayAdapter<string>(Activity, Android.Resource.Layout.SimpleSpinnerItem, _contacts.Select(x => x.Name).ToList());
+
             return rootView;
+        }
+
+        private void ContactSelector_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
+        {
+            // Resolve Contact Record from list using selected Name
+            _selectedContact = _contacts.SingleOrDefault(x => x.Name == _contactSelector.GetItemAtPosition(e.Position).ToString());
+
+            SetSendButtonState();
         }
 
         private void MessageText_AfterTextChanged(object sender, Android.Text.AfterTextChangedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(_messageText.Text))
+            SetSendButtonState();
+        }
+
+        private void SetSendButtonState()
+        {
+            if (string.IsNullOrWhiteSpace(_messageText.Text) && (_selectedContact != null && _selectedContact.Id != Guid.Empty.ToString()))
             {
                 _composeSend.Enabled = false;
             }
@@ -71,14 +99,14 @@ namespace ShhhSMS.Fragments
             OnCancel?.Invoke(this, EventArgs.Empty);
         }
 
-        public async Task SendSms(string messageText, string recipient)
+        public async Task SendSms(string messageText)
         {
             try
             {
-                // TODO: Need to Encrypt the message and pass the result to Sms
-                var encryptedMessage = await encryptionService.EncryptMessage(messageText);
+                // Need to Encrypt the message using recipients Public Key and pass the result to Sms
+                var encryptedMessage = await encryptionService.EncryptMessage(messageText, _selectedContact.Id, _selectedContact.PublicKey);
 
-                var message = new SmsMessage(encryptedMessage.ToString(), new[] { recipient });
+                var message = new SmsMessage { Body = encryptedMessage.ToString() };
 
                 await Sms.ComposeAsync(message);
             }
