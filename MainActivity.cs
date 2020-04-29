@@ -120,11 +120,6 @@ namespace ShhhSMS
                 PerformFragmentNavigation(composeFragment, "Compose");
                 fab.Visibility = ViewStates.Invisible;
             }
-            else if (id == Resource.Id.nav_reader)
-            {
-                PerformFragmentNavigation(new ReaderFragment(), "Reader");
-                fab.Visibility = ViewStates.Visible;
-            }
             else if (id == Resource.Id.nav_help)
             {
                 PerformFragmentNavigation(new HelpFragment(), "Help");
