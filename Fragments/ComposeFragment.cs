@@ -63,7 +63,7 @@ namespace ShhhSMS.Fragments
 
             _contactSelector = rootView.FindViewById<Spinner>(Resource.Id.composeContactSelector);
             _contactSelector.ItemSelected += ContactSelector_ItemSelected;
-            _contactSelector.Adapter = new ArrayAdapter<string>(Activity, Android.Resource.Layout.SimpleSpinnerItem, _contacts.Select(x => x.Name).ToList());
+            _contactSelector.Adapter = new ArrayAdapter<string>(Activity, Android.Resource.Layout.SimpleSpinnerDropDownItem, _contacts.Select(x => x.Name).ToList());
 
             return rootView;
         }
@@ -83,7 +83,7 @@ namespace ShhhSMS.Fragments
 
         private void SetSendButtonState()
         {
-            if (string.IsNullOrWhiteSpace(_messageText.Text) && (_selectedContact != null && _selectedContact.Id != Guid.Empty.ToString()))
+            if (string.IsNullOrWhiteSpace(_messageText.Text) || (_selectedContact != null && _selectedContact.Id == Guid.Empty.ToString()))
             {
                 _composeSend.Enabled = false;
             }
@@ -95,7 +95,6 @@ namespace ShhhSMS.Fragments
 
         private void ComposeCancel_Click(object sender, EventArgs e)
         {
-            // TODO: Need to Replace Self with Welcome Fragment
             OnCancel?.Invoke(this, EventArgs.Empty);
         }
 

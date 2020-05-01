@@ -3,13 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-
+    android:layout_height="match_parent"
+    android:padding="10dp">
 
     <TextView
-        android:text="Compose Message"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/compose_title"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minWidth="25px"
@@ -20,6 +19,8 @@
     <androidx.appcompat.widget.AppCompatSpinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:id="@+id/composeContactSelector" />
 
     <EditText
@@ -27,7 +28,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:lines="15"
+        android:hint="@string/compose_message"
         android:id="@+id/composeText" />
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -41,10 +44,11 @@
             android:layout_weight="2"
             android:id="@+id/composeCancel" />
         <Button
-            android:text="Send"
+            android:text="@string/compose_send"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:enabled="false"
             android:id="@+id/composeSend" />
 
     </LinearLayout>

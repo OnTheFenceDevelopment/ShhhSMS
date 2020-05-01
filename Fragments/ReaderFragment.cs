@@ -41,7 +41,7 @@ namespace ShhhSMS.Fragments
 
             if (sender == null)
             {
-                // TODO: Display Error - Contact not Found!
+                // TODO: If sender is null then user could be re-opening a message they sent - check contactId
             }
             else
             {
@@ -58,7 +58,15 @@ namespace ShhhSMS.Fragments
 
             var messageText = rootView.FindViewById<TextView>(Resource.Id.messageText);
 
-            messageText.Text = encryptionService.DecryptMessage(decryptionPackage).GetAwaiter().GetResult();
+            if (decryptionPackage != null)
+            {
+                // Don't like this (get awaiter)
+                messageText.Text = encryptionService.DecryptMessage(decryptionPackage).GetAwaiter().GetResult();
+            }
+            else
+            {
+                Toast.MakeText(Activity, "Unable to resolve message sender", ToastLength.Long).Show();
+            }
 
             return rootView;
         }

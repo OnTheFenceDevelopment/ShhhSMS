@@ -6,7 +6,7 @@
 	android:layout_height="match_parent"
     android:padding="10dp">
 	<TextView
-		android:text="Enter your Password"
+		android:text="@string/login_title"
 		android:textAppearance="?android:attr/textAppearanceLarge"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
@@ -16,10 +16,11 @@
         android:layout_alignParentTop="true"
 		android:id="@+id/login_title" />
 	<TextView
-		android:text="Please enter your password below."
+		android:text="@string/login_subTitle"
 		android:textAppearance="?android:attr/textAppearanceMedium"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
+		android:gravity="center_horizontal"
         android:layout_below="@+id/login_title"
 		android:id="@+id/loginMessage" />
 	<EditText
@@ -27,7 +28,7 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:hint="Password"
+        android:hint="@string/login_passwordHint"
 		android:id="@+id/userPassword" />
 	<LinearLayout
 		android:orientation="horizontal"
@@ -35,15 +36,15 @@
 		android:minHeight="25px"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+		android:layout_below="@id/userPassword">
 		<Button
-			android:text="Cancel"
+			android:text="@android:string/cancel"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:id="@+id/login_cancel"
 			android:layout_weight="1"/>
 		<Button
-			android:text="OK"
+			android:text="@android:string/ok"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:id="@+id/login_ok"

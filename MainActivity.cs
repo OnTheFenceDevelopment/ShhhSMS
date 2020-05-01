@@ -162,7 +162,7 @@ namespace ShhhSMS
 
             menuTransaction.Replace(Resource.Id.fragment_container, fragment, fragmentTag);
             
-            menuTransaction.AddToBackStack(null);   // Name??
+            menuTransaction.AddToBackStack(null);
 
             menuTransaction.Commit();
         }

@@ -4,10 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <TextView
-        android:text="Help View"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/help_title"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
         android:minWidth="25px"
         android:minHeight="25px"
         android:id="@+id/helpHolding" />
