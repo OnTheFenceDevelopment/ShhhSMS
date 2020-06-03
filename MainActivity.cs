@@ -30,7 +30,7 @@ namespace ShhhSMS
             base.OnCreate(savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             SetContentView(Resource.Layout.activity_main);
-            
+
             AndroidX.AppCompat.Widget.Toolbar toolbar = FindViewById<AndroidX.AppCompat.Widget.Toolbar>(Resource.Id.toolbar);
             SetSupportActionBar(toolbar);
 
@@ -49,11 +49,12 @@ namespace ShhhSMS
             welcomeTransaction.Add(Resource.Id.fragment_container, new WelcomeFragment(), "Welcome");
             welcomeTransaction.Commit();
 
+            var incomingSMSContent = string.Empty;
+
             // Check for 'incoming' SMS message
             if (Intent.Action == Android.Content.Intent.ActionSend && Intent.Type == "text/plain")
             {
-                var readerFragment = new ReaderFragment(Intent.GetStringExtra(Android.Content.Intent.ExtraText));
-                PerformFragmentNavigation(readerFragment, "Reader");
+                incomingSMSContent = Intent.GetStringExtra(Android.Content.Intent.ExtraText);
             }
 
             encryptionService = new EncryptionService();
@@ -62,12 +63,17 @@ namespace ShhhSMS
                 PerformFragmentNavigation(new LoginFragment(), "Login");
                 fab.Visibility = ViewStates.Invisible;
             }
+            else if (string.IsNullOrEmpty(incomingSMSContent))
+            {
+                var readerFragment = new ReaderFragment(incomingSMSContent);
+                PerformFragmentNavigation(readerFragment, "Reader");
+            }
         }
 
         public override void OnBackPressed()
         {
             var drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
-            if(drawer.IsDrawerOpen(GravityCompat.Start))
+            if (drawer.IsDrawerOpen(GravityCompat.Start))
             {
                 drawer.CloseDrawer(GravityCompat.Start);
             }
@@ -120,20 +126,24 @@ namespace ShhhSMS
                 PerformFragmentNavigation(composeFragment, "Compose");
                 fab.Visibility = ViewStates.Invisible;
             }
-            else if (id == Resource.Id.nav_help)
-            {
-                PerformFragmentNavigation(new HelpFragment(), "Help");
-                fab.Visibility = ViewStates.Visible;
-            }
             else if (id == Resource.Id.nav_key_maintenance)
             {
                 PerformFragmentNavigation(new KeyMaintenanceFragment(), "Key Maintenance");
                 fab.Visibility = ViewStates.Invisible;
             }
-            else if(id == Resource.Id.nav_contact_management)
+            else if (id == Resource.Id.nav_contact_management)
             {
                 PerformFragmentNavigation(new ContactMaintenanceFragment(), "Contacts");
                 fab.Visibility = ViewStates.Invisible;
+            }
+            else if (id == Resource.Id.nav_logout)
+            {
+                if (encryptionService == null)
+                    encryptionService = new EncryptionService();
+
+                encryptionService.ClearPassword();
+
+                Finish();
             }
 
             DrawerLayout drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
@@ -161,7 +171,7 @@ namespace ShhhSMS
             menuTransaction.SetCustomAnimations(Resource.Animation.abc_slide_in_top, Resource.Animation.abc_fade_out);
 
             menuTransaction.Replace(Resource.Id.fragment_container, fragment, fragmentTag);
-            
+
             menuTransaction.AddToBackStack(null);
 
             menuTransaction.Commit();

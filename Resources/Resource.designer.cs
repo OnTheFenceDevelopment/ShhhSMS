@@ -6544,13 +6544,13 @@ namespace ShhhSMS
 			public const int nav_contact_management = 2131230918;
 			
 			// aapt resource value: 0x7F0800C7
-			public const int nav_help = 2131230919;
+			public const int nav_home = 2131230919;
 			
 			// aapt resource value: 0x7F0800C8
-			public const int nav_home = 2131230920;
+			public const int nav_key_maintenance = 2131230920;
 			
 			// aapt resource value: 0x7F0800C9
-			public const int nav_key_maintenance = 2131230921;
+			public const int nav_logout = 2131230921;
 			
 			// aapt resource value: 0x7F0800CA
 			public const int nav_view = 2131230922;

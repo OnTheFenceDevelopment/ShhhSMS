@@ -20,10 +20,11 @@
           android:id="@+id/nav_key_maintenance"
           android:icon="@mipmap/ic_menu_key"
           android:title="Key Maintenance" />
+
     <item
-        android:id="@+id/nav_help"
-        android:icon="@android:drawable/ic_menu_help"
-        android:title="Help" />
+        android:id="@+id/nav_logout"
+        android:icon="@mipmap/ic_menu_key"
+        android:title="Logout" />
   </group>
 
 </menu>

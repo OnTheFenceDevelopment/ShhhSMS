@@ -86,5 +86,12 @@ namespace ShhhSMS.Services
 
             return $"{contactId}|{publicKey}";
         }
+
+        public bool ClearPassword()
+        {
+            var result = Xamarin.Essentials.SecureStorage.Remove(Constants.Identifiers.UserPassword);
+
+            return result;
+        }
     }
 }

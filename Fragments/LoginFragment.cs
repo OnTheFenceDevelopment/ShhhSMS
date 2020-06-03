@@ -5,6 +5,7 @@ using Android.Widget;
 using AlertDialog = Android.App.AlertDialog;
 using ShhhSMS.Services;
 using AndroidX.Fragment.App;
+using Android.SE.Omapi;
 
 namespace ShhhSMS.Fragments
 {
@@ -19,9 +20,20 @@ namespace ShhhSMS.Fragments
         private string deviceId;
 
         private string loginMessageText;
+        private string incomingSMSContent;
 
         // TODO: Replace with IOC
         EncryptionService encryptionService;
+
+        public LoginFragment()
+        {
+
+        }
+
+        public LoginFragment(string incomingSMSContent)
+        {
+            this.incomingSMSContent = incomingSMSContent;
+        }
 
         public async override void OnCreate(Bundle savedInstanceState)
         {
@@ -78,6 +90,14 @@ namespace ShhhSMS.Fragments
             welcomeTransaction.Commit();
         }
 
+        private void NavigateToReader(ReaderFragment readerFragment)
+        {
+            var readerTransaction = Activity.SupportFragmentManager.BeginTransaction();
+            readerTransaction.SetCustomAnimations(Resource.Animation.abc_slide_in_top, Resource.Animation.abc_fade_out);
+            readerTransaction.Replace(Resource.Id.fragment_container, readerFragment, "Reader");
+            readerTransaction.Commit();
+        }
+
         private async void LoginOK_Click(object sender, EventArgs e)
         {
             var passwordBytes = Sodium.GenericHash.Hash(userPassword.Text, deviceId, 32);
@@ -99,8 +119,18 @@ namespace ShhhSMS.Fragments
 
                 if (publicKey.Equals(generatedPublicKeyBase64))
                 {
+                    await encryptionService.SetPassword(userPassword.Text);
                     Toast.MakeText(Activity, "Login Successful", ToastLength.Long).Show();
-                    NavigateToWelcome();
+
+                    if (string.IsNullOrEmpty(incomingSMSContent))
+                    {
+                        NavigateToWelcome();
+                    }
+                    else
+                    {
+                        var readerFragment = new ReaderFragment(incomingSMSContent);
+                        NavigateToReader(readerFragment);
+                    }
                 }
                 else
                 {

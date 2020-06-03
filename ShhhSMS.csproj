@@ -63,7 +63,6 @@
     <Compile Include="Fragments\AddContactDialogFragment.cs" />
     <Compile Include="Fragments\ComposeFragment.cs" />
     <Compile Include="Fragments\ContactMaintenanceFragment.cs" />
-    <Compile Include="Fragments\HelpFragment.cs" />
     <Compile Include="Fragments\KeyMaintenanceFragment.cs" />
     <Compile Include="Fragments\ReaderFragment.cs" />
     <Compile Include="Fragments\ScanPublicKeyDialogFragment.cs" />
