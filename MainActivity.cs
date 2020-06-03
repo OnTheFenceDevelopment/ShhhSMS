@@ -63,7 +63,7 @@ namespace ShhhSMS
                 PerformFragmentNavigation(new LoginFragment(), "Login");
                 fab.Visibility = ViewStates.Invisible;
             }
-            else if (string.IsNullOrEmpty(incomingSMSContent))
+            else if (string.IsNullOrEmpty(incomingSMSContent) == false)
             {
                 var readerFragment = new ReaderFragment(incomingSMSContent);
                 PerformFragmentNavigation(readerFragment, "Reader");
