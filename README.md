@@ -1,4 +1,4 @@
-# ShhhSMS
+# ShhhSMS (THIS IS A WORKING PROOF OF CONCEPT)
 This is a PROOF OF CONCEPT Xamarin.Android Application facilitating the sending and receiving of encrypted SMS messages. It is not intended to be production ready or a best practice example. It mearly demonstrates what can be achieved by a regular programmer with readily available tools and libraries.
 
 ## Overview
