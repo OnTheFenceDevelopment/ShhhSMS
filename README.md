@@ -22,7 +22,7 @@ When logging in the app will generate a set of encryption keys, one private and 
 * Tap the 'Share Public Key' button
 * A QR code will now be displayed which can be scanned by another user to add you as a contact
 
-<img src="./screenshots/share-public-key.jpg" width=250px>
+<img src="./Screenshots/share-public-key.jpg" width=250px>
 
 #### Adding a Contact
 * Open the Contacts page
@@ -39,7 +39,7 @@ The contact is now added to Shhh.SMS and you can send them encrypted messages. N
 * Enter the message
 * Click Send
 
-<img src="./screenshots/compose-message.jpg" width=250px>
+<img src="./Screenshots/compose-message.jpg" width=250px>
 
 Your devices SMS application will now open and ask you to select the recipient of the message from your contact list - or allow you to add a number manually.
 
@@ -47,14 +47,14 @@ Once this has been done, send the message as you would with any other.
 
 ### Receiving Messages
 
-<img src="./screenshots/message-received.jpg" width=250px>
+<img src="./Screenshots/message-received.jpg" width=250px>
 
 When a message is received it needs to be 'Shared' with the Shhh.SMS application. 
 * Long press the message
 * Select 'Share' from the resulting menu
 * Select the 'Shhh.SMS' application
 
-<img src="./screenshots/message-reader.jpg" width=250px>
+<img src="./Screenshots/message-reader.jpg" width=250px>
 
 ## The Benefits
 The key difference here is that the the app uses the mobile carriers SMS channel to send the messages and they are not responsible for any part of the encryption - so they cannot be pressured to provide access to the decrypted text.
