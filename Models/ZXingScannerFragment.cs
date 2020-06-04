@@ -8,6 +8,11 @@ using ZXing.Mobile;
 
 namespace ShhhSMS.Models
 {
+    /// <summary>
+    /// The 'official' version of ZXingScannerFragment switches out the AndroidX.Fragment.App and Android.Support.App based on the API version of the OS on the device
+    /// I wanted/needed to use the AndroidX version regardless - hence the separate class (copied from the source but with the #if __ANDROID_29__ conditional statement removed)
+    /// Original Source at: https://github.com/Redth/ZXing.Net.Mobile/blob/master/ZXing.Net.Mobile/Android/ZXingScannerFragment.android.cs 
+    /// </summary>
     public class ZXingScannerFragment : Fragment, IZXingScanner<View>, IScannerView
     {
         private ZXingSurfaceView scanner;
