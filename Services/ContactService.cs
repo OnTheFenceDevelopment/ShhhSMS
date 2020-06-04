@@ -32,8 +32,8 @@ namespace ShhhSMS.Services
                 if (ContactFileExists())
                 {
                     // TODO: Read into local collection
-                    var foo = File.ReadAllText(_backingFilePath);
-                    contacts = JsonConvert.DeserializeObject<List<Contact>>(foo);
+                    var contactJson = File.ReadAllText(_backingFilePath);
+                    contacts = JsonConvert.DeserializeObject<List<Contact>>(contactJson);
                 }
                 else
                 {

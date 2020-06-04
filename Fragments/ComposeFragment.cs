@@ -43,6 +43,7 @@ namespace ShhhSMS.Fragments
         private async void ComposeSend_Click(object sender, System.EventArgs e)
         {
             await SendSms(_messageText.Text);
+            _messageText.Text = string.Empty;
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -109,15 +110,13 @@ namespace ShhhSMS.Fragments
 
                 await Sms.ComposeAsync(message);
             }
-            catch (FeatureNotSupportedException ex)
+            catch (FeatureNotSupportedException)
             {
-                var dsc = 1;
-                // Sms is not supported on this device.
+                // TODO: Sms is not supported on this device. Display Error
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                var foo = 1;
-                // Other error has occurred.
+                // TODO: Other error has occurred. Display Error
             }
         }
     }

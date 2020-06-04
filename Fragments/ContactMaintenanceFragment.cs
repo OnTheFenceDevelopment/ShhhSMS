@@ -115,10 +115,6 @@ namespace ShhhSMS.Fragments
                     Activity.RunOnUiThread(() => Toast.MakeText(Activity, "Hmmm - something weird just happened, please try again!", ToastLength.Long).Show());
                 }
             }
-            else if (requestCode == Constants.Add_Contact_Request_Code)
-            {
-                var foo = 1;
-            }
         }
     }
 }
