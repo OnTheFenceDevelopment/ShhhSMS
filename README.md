@@ -1,6 +1,8 @@
 # ShhhSMS (THIS IS A WORKING PROOF OF CONCEPT)
 This is a PROOF OF CONCEPT Xamarin.Android Application facilitating the sending and receiving of encrypted SMS messages. It is not intended to be production ready or a best practice example. It mearly demonstrates what can be achieved by a regular programmer with readily available tools and libraries.
 
+You can find more information on my blog at: https://onthefencedevelopment.com/2020/06/04/sending-secure-sms-thats-crazy-talk/ 
+
 ## Overview
 Governments around the world are putting a lot of pressure on 'the big technology companies' like WhatsApp to put backdoors into their applications or somehow weaken the levels of encryption but I feel that this is misguided.
 
