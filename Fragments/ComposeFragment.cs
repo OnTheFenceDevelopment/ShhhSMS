@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
+using Contact = ShhhSMS.Models.Contact;
 
 namespace ShhhSMS.Fragments
 {

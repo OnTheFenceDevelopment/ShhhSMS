@@ -1,0 +1,1 @@
+Placeholder to ensure Assets folder is restored - yeah, not using anything in here right now but you know how cranky Xamarin can be ;-)
