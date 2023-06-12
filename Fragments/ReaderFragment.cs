@@ -15,7 +15,7 @@ namespace ShhhSMS.Fragments
         private DecryptionPackage decryptionPackage;
 
         // TODO: Replace with IOC
-        IEncryptionService encryptionService;
+        readonly IEncryptionService encryptionService;
         IContactService contactService;
 
         public ReaderFragment()
@@ -56,16 +56,16 @@ namespace ShhhSMS.Fragments
         {
             var rootView = inflater.Inflate(Resource.Layout.reader, container, false);
 
-            var messageText = rootView.FindViewById<TextView>(Resource.Id.messageText);
+            var messageText = rootView!.FindViewById<TextView>(Resource.Id.messageText);
 
             if (decryptionPackage != null)
             {
                 // Don't like this (get awaiter)
-                messageText.Text = encryptionService.DecryptMessage(decryptionPackage).GetAwaiter().GetResult();
+                messageText!.Text = encryptionService.DecryptMessage(decryptionPackage).GetAwaiter().GetResult();
             }
             else
             {
-                Toast.MakeText(Activity, "Unable to resolve message sender", ToastLength.Long).Show();
+                Toast.MakeText(Activity, "Unable to resolve message sender", ToastLength.Long)!.Show();
             }
 
             return rootView;

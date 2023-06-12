@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using AndroidX.Fragment.App;
 using Android.Content;
 using Android.OS;
-using Android.Runtime;
-using Android.Util;
 using Android.Views;
 using Android.Widget;
 
@@ -20,11 +15,6 @@ namespace ShhhSMS.Fragments
     public class ScanPublicKeyDialogFragment : DialogFragment
     {
         ZXingScannerFragment scanFragment;
-
-        public override void OnCreate(Bundle savedInstanceState)
-        {
-            base.OnCreate(savedInstanceState);
-        }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
@@ -59,8 +49,8 @@ namespace ShhhSMS.Fragments
         {
             var opts = new MobileBarcodeScanningOptions
             {
-                PossibleFormats = new List<ZXing.BarcodeFormat> {
-                    ZXing.BarcodeFormat.QR_CODE
+                PossibleFormats = new List<BarcodeFormat> {
+                    BarcodeFormat.QR_CODE
                 },
                 CameraResolutionSelector = availableResolutions =>
                 {
@@ -78,7 +68,7 @@ namespace ShhhSMS.Fragments
                 // Null result means scanning was cancelled
                 if (result == null || string.IsNullOrEmpty(result.Text))
                 {
-                    Toast.MakeText(Activity, "Scanning Cancelled", ToastLength.Long).Show();
+                    Toast.MakeText(Activity, "Scanning Cancelled", ToastLength.Long)!.Show();
                     return;
                 }
 
@@ -109,8 +99,6 @@ namespace ShhhSMS.Fragments
 
         private bool IsValidContactScan(Result scannedData)
         {
-            Guid contactId;
-
             // First make sure that it was a QR Code that was scanned
             if (scannedData.BarcodeFormat != BarcodeFormat.QR_CODE)
                 return false;
@@ -122,7 +110,7 @@ namespace ShhhSMS.Fragments
                 return false;
 
             // Ensure ContactId is a valid Guid
-            if (Guid.TryParse(scanElements[0], out contactId) == false)
+            if (Guid.TryParse(scanElements[0], out _) == false)
                 return false;
 
             // Ensure decoded PublicKey is a valid byte array of the correct length
@@ -136,7 +124,7 @@ namespace ShhhSMS.Fragments
         private string[] PublicKeyElements(string rawScanData)
         {
             var scanElements = rawScanData.Replace("{", string.Empty).Replace("}", string.Empty).Split("|");
-            return new string[] { scanElements[0], scanElements[1] };
+            return new[] { scanElements[0], scanElements[1] };
         }
     }
 }

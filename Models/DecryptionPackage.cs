@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ShhhSMS.Models
+﻿namespace ShhhSMS.Models
 {
     public class DecryptionPackage
     {

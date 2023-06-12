@@ -26,8 +26,8 @@ namespace ShhhSMS.Fragments
         {
             var rootView = inflater.Inflate(Resource.Layout.key_maintenance, container, false);
 
-            _sharePublicKey = rootView.FindViewById<Button>(Resource.Id.sharePublicKey);
-            _sharePublicKey.Click += SharePublicKey_Click;
+            _sharePublicKey = rootView!.FindViewById<Button>(Resource.Id.sharePublicKey);
+            _sharePublicKey!.Click += SharePublicKey_Click;
 
             return rootView;
         }

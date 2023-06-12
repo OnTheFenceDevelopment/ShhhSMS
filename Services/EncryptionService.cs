@@ -62,7 +62,7 @@ namespace ShhhSMS.Services
             var publicKey = await Xamarin.Essentials.SecureStorage.GetAsync(Constants.Identifiers.PublicKey);
             var deviceId = await Xamarin.Essentials.SecureStorage.GetAsync(Constants.Identifiers.DeviceId);
 
-            var passwordBytes = Sodium.GenericHash.Hash(password.ToString(), deviceId, 32);
+            var passwordBytes = Sodium.GenericHash.Hash(password, deviceId, 32);
             var keyPair = Sodium.PublicKeyBox.GenerateKeyPair(passwordBytes);
 
             if (publicKey.Equals(Convert.ToBase64String(keyPair.PublicKey)))

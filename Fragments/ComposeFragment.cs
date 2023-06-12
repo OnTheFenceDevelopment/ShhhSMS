@@ -1,9 +1,7 @@
 ﻿using Android.OS;
-
 using Android.Views;
 using Android.Widget;
 using AndroidX.Fragment.App;
-using ShhhSMS.Models;
 using ShhhSMS.Services;
 using System;
 using System.Collections.Generic;
@@ -41,7 +39,7 @@ namespace ShhhSMS.Fragments
             _contacts.Insert(0, new Contact { Id = Guid.Empty.ToString(), Name = "Select Recipient", PublicKey = string.Empty });
         }
 
-        private async void ComposeSend_Click(object sender, System.EventArgs e)
+        private async void ComposeSend_Click(object sender, EventArgs e)
         {
             await SendSms(_messageText.Text);
             _messageText.Text = string.Empty;
@@ -52,20 +50,20 @@ namespace ShhhSMS.Fragments
             // Use this to return your custom view for this Fragment
             var rootView = inflater.Inflate(Resource.Layout.compose, container, false);
 
-            _composeSend = rootView.FindViewById<Button>(Resource.Id.composeSend);
-            _composeSend.Click += ComposeSend_Click;
-            _composeSend.Enabled = false;
+            _composeSend = rootView!.FindViewById<Button>(Resource.Id.composeSend);
+            _composeSend!.Click += ComposeSend_Click;
+            _composeSend!.Enabled = false;
 
-            _composeCancel = rootView.FindViewById<Button>(Resource.Id.composeCancel);
-            _composeCancel.Click += ComposeCancel_Click;
+            _composeCancel = rootView!.FindViewById<Button>(Resource.Id.composeCancel);
+            _composeCancel!.Click += ComposeCancel_Click;
 
-            _messageText = rootView.FindViewById<EditText>(Resource.Id.composeText);
-            _messageText.AfterTextChanged += MessageText_AfterTextChanged;
-            _messageText.RequestFocus();
+            _messageText = rootView!.FindViewById<EditText>(Resource.Id.composeText);
+            _messageText!.AfterTextChanged += MessageText_AfterTextChanged;
+            _messageText!.RequestFocus();
 
-            _contactSelector = rootView.FindViewById<Spinner>(Resource.Id.composeContactSelector);
-            _contactSelector.ItemSelected += ContactSelector_ItemSelected;
-            _contactSelector.Adapter = new ArrayAdapter<string>(Activity, Android.Resource.Layout.SimpleSpinnerDropDownItem, _contacts.Select(x => x.Name).ToList());
+            _contactSelector = rootView!.FindViewById<Spinner>(Resource.Id.composeContactSelector);
+            _contactSelector!.ItemSelected += ContactSelector_ItemSelected;
+            _contactSelector!.Adapter = new ArrayAdapter<string>(Activity, Android.Resource.Layout.SimpleSpinnerDropDownItem, _contacts.Select(x => x.Name).ToList());
 
             return rootView;
         }
@@ -73,7 +71,7 @@ namespace ShhhSMS.Fragments
         private void ContactSelector_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
             // Resolve Contact Record from list using selected Name
-            _selectedContact = _contacts.SingleOrDefault(x => x.Name == _contactSelector.GetItemAtPosition(e.Position).ToString());
+            _selectedContact = _contacts.Single(x => x.Name == _contactSelector.GetItemAtPosition(e.Position)!.ToString());
 
             SetSendButtonState();
         }
@@ -100,7 +98,7 @@ namespace ShhhSMS.Fragments
             OnCancel?.Invoke(this, EventArgs.Empty);
         }
 
-        public async Task SendSms(string messageText)
+        private async Task SendSms(string messageText)
         {
             try
             {

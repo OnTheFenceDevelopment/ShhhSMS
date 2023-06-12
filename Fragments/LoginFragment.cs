@@ -5,7 +5,6 @@ using Android.Widget;
 using AlertDialog = Android.App.AlertDialog;
 using ShhhSMS.Services;
 using AndroidX.Fragment.App;
-using Android.SE.Omapi;
 
 namespace ShhhSMS.Fragments
 {
@@ -35,7 +34,7 @@ namespace ShhhSMS.Fragments
             this.incomingSMSContent = incomingSMSContent;
         }
 
-        public async override void OnCreate(Bundle savedInstanceState)
+        public override async void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
@@ -58,20 +57,20 @@ namespace ShhhSMS.Fragments
         {
             var rootView = inflater.Inflate(Resource.Layout.generate_keys, container, false);
 
-            loginCancel = rootView.FindViewById<Button>(Resource.Id.login_cancel);
-            loginCancel.Click += LoginCancel_Click;
+            loginCancel = rootView!.FindViewById<Button>(Resource.Id.login_cancel);
+            loginCancel!.Click += LoginCancel_Click;
 
-            loginOK = rootView.FindViewById<Button>(Resource.Id.login_ok);
-            loginOK.Click += LoginOK_Click;
-            loginOK.Enabled = false;
+            loginOK = rootView!.FindViewById<Button>(Resource.Id.login_ok);
+            loginOK!.Click += LoginOK_Click;
+            loginOK!.Enabled = false;
 
-            userPassword = rootView.FindViewById<EditText>(Resource.Id.userPassword);
-            userPassword.AfterTextChanged += UserPassword_AfterTextChanged;
-            userPassword.RequestFocus();
+            userPassword = rootView!.FindViewById<EditText>(Resource.Id.userPassword);
+            userPassword!.AfterTextChanged += UserPassword_AfterTextChanged;
+            userPassword!.RequestFocus();
 
             // TODO: Set message based on Key status (different for first and subsequent logins)
-            loginMessage = rootView.FindViewById<TextView>(Resource.Id.loginMessage);
-            loginMessage.Text = loginMessageText;
+            loginMessage = rootView!.FindViewById<TextView>(Resource.Id.loginMessage);
+            loginMessage!.Text = loginMessageText;
 
             return rootView;
         }
@@ -84,7 +83,7 @@ namespace ShhhSMS.Fragments
         private void NavigateToWelcome()
         {
             // TODO: Also need to Show the Floating Compose Button
-            var welcomeTransaction = Activity.SupportFragmentManager.BeginTransaction();
+            var welcomeTransaction = Activity!.SupportFragmentManager.BeginTransaction();
             welcomeTransaction.SetCustomAnimations(Resource.Animation.abc_slide_in_top, Resource.Animation.abc_fade_out);
             welcomeTransaction.Replace(Resource.Id.fragment_container, new WelcomeFragment(), "Welcome");
             welcomeTransaction.Commit();
@@ -92,7 +91,7 @@ namespace ShhhSMS.Fragments
 
         private void NavigateToReader(ReaderFragment readerFragment)
         {
-            var readerTransaction = Activity.SupportFragmentManager.BeginTransaction();
+            var readerTransaction = Activity!.SupportFragmentManager.BeginTransaction();
             readerTransaction.SetCustomAnimations(Resource.Animation.abc_slide_in_top, Resource.Animation.abc_fade_out);
             readerTransaction.Replace(Resource.Id.fragment_container, readerFragment, "Reader");
             readerTransaction.Commit();
@@ -109,7 +108,7 @@ namespace ShhhSMS.Fragments
                 await encryptionService.SetPublicKey(Convert.ToBase64String(keyPair.PublicKey));
                 await encryptionService.SetPassword(userPassword.Text);
 
-                Toast.MakeText(Activity, "Encryption Keys Generated", ToastLength.Long).Show();
+                Toast.MakeText(Activity, "Encryption Keys Generated", ToastLength.Long)!.Show();
                 NavigateToWelcome();
             }
             else
@@ -120,7 +119,7 @@ namespace ShhhSMS.Fragments
                 if (publicKey.Equals(generatedPublicKeyBase64))
                 {
                     await encryptionService.SetPassword(userPassword.Text);
-                    Toast.MakeText(Activity, "Login Successful", ToastLength.Long).Show();
+                    Toast.MakeText(Activity, "Login Successful", ToastLength.Long)!.Show();
 
                     if (string.IsNullOrEmpty(incomingSMSContent))
                     {
@@ -138,13 +137,13 @@ namespace ShhhSMS.Fragments
                     var builder = new AlertDialog.Builder(Activity);
                     builder.SetTitle("Login Failure");
                     builder.SetMessage("Incorrect password/passphrase - please try again.");
-                    builder.SetPositiveButton("OK", (s, e) =>
+                    builder.SetPositiveButton("OK", (s, evt) =>
                     {
                         builder.Dispose();
                     });
 
                     var dialog = builder.Create();
-                    dialog.Show();
+                    dialog!.Show();
                 }
             }
         }
@@ -154,18 +153,18 @@ namespace ShhhSMS.Fragments
             var builder = new AlertDialog.Builder(Activity);
             builder.SetTitle("Are you sure?");
             builder.SetMessage("Are you sure you want to exit?");
-            builder.SetPositiveButton("Yes", (s, e) =>
+            builder.SetPositiveButton("Yes", (s, evt) =>
             {
-                Activity.Finish();
+                Activity!.Finish();
             });
-            builder.SetNegativeButton("No", (s, e) =>
+            builder.SetNegativeButton("No", (s, evt) =>
             {
                 builder.Dispose();
                 return;
             });
 
             var dialog = builder.Create();
-            dialog.Show();
+            dialog!.Show();
         }
     }
 }

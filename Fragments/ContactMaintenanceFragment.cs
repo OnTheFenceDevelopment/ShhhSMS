@@ -1,5 +1,4 @@
 ﻿using System;
-
 using AndroidX.Fragment.App;
 using Android.OS;
 using Android.Views;
@@ -18,22 +17,17 @@ namespace ShhhSMS.Fragments
         // TODO: Replace with IoC
         private IContactService _contactService;
 
-        public override void OnCreate(Bundle savedInstanceState)
-        {
-            base.OnCreate(savedInstanceState);
-        }
-
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var rootView = inflater.Inflate(Resource.Layout.contact_maintenance, container, false);
-            _addContact = rootView.FindViewById<Button>(Resource.Id.addContact);
-            _addContact.Click += AddContact_Click;
+            _addContact = rootView!.FindViewById<Button>(Resource.Id.addContact);
+            _addContact!.Click += AddContact_Click;
 
             _contactService = new ContactService();
             var existingContacts = _contactService.GetContacts();
 
-            _contactList = rootView.FindViewById<ListView>(Resource.Id.contactList);
-            _contactList.Adapter = new ArrayAdapter<string>(Activity, Android.Resource.Layout.SimpleListItem1, existingContacts.Select(x => x.Name).ToList());
+            _contactList = rootView!.FindViewById<ListView>(Resource.Id.contactList);
+            _contactList!.Adapter = new ArrayAdapter<string>(Activity, Android.Resource.Layout.SimpleListItem1, existingContacts.Select(x => x.Name).ToList());
 
             return rootView;
         }
@@ -108,11 +102,11 @@ namespace ShhhSMS.Fragments
                 }
                 else if (resultCode == Constants.Unsuccessful_Public_Key_Scan)
                 {
-                    Activity.RunOnUiThread(() => Toast.MakeText(Activity, "Invalid Barcode - Please try again!", ToastLength.Long).Show());
+                    Activity.RunOnUiThread(() => Toast.MakeText(Activity, "Invalid Barcode - Please try again!", ToastLength.Long)!.Show());
                 }
                 else
                 {
-                    Activity.RunOnUiThread(() => Toast.MakeText(Activity, "Hmmm - something weird just happened, please try again!", ToastLength.Long).Show());
+                    Activity.RunOnUiThread(() => Toast.MakeText(Activity, "Hmmm - something weird just happened, please try again!", ToastLength.Long)!.Show());
                 }
             }
         }

@@ -6,7 +6,6 @@ using AndroidX.AppCompat.App;
 using AndroidX.Core.View;
 using AndroidX.DrawerLayout.Widget;
 using Google.Android.Material.FloatingActionButton;
-
 using Google.Android.Material.Navigation;
 using ShhhSMS.Fragments;
 using ShhhSMS.Services;
@@ -35,15 +34,15 @@ namespace ShhhSMS
             SetSupportActionBar(toolbar);
 
             fab = FindViewById<FloatingActionButton>(Resource.Id.fab);
-            fab.Click += FabOnClick;
+            fab!.Click += FabOnClick;
             DrawerLayout drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
             ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, Resource.String.navigation_drawer_open, Resource.String.navigation_drawer_close);
-            drawer.AddDrawerListener(toggle);
+            drawer!.AddDrawerListener(toggle);
             toggle.SyncState();
 
             navigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
-            navigationView.SetNavigationItemSelectedListener(this);
-            navigationView.Menu.GetItem(0).SetChecked(true);
+            navigationView!.SetNavigationItemSelectedListener(this);
+            navigationView!.Menu!.GetItem(0)!.SetChecked(true);
 
             var welcomeTransaction = SupportFragmentManager.BeginTransaction();
             welcomeTransaction.Add(Resource.Id.fragment_container, new WelcomeFragment(), "Welcome");
@@ -73,7 +72,7 @@ namespace ShhhSMS
         public override void OnBackPressed()
         {
             var drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
-            if (drawer.IsDrawerOpen(GravityCompat.Start))
+            if (drawer!.IsDrawerOpen(GravityCompat.Start))
             {
                 drawer.CloseDrawer(GravityCompat.Start);
             }
@@ -138,16 +137,14 @@ namespace ShhhSMS
             }
             else if (id == Resource.Id.nav_logout)
             {
-                if (encryptionService == null)
-                    encryptionService = new EncryptionService();
-
+                encryptionService ??= new EncryptionService();
                 encryptionService.ClearPassword();
 
                 Finish();
             }
 
             DrawerLayout drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
-            drawer.CloseDrawer(GravityCompat.Start);
+            drawer!.CloseDrawer(GravityCompat.Start);
             return true;
         }
 

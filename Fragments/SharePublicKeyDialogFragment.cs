@@ -1,19 +1,12 @@
 ﻿
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using AndroidX.Fragment.App;
-using Android.Content;
 using Android.OS;
-using Android.Runtime;
-using Android.Util;
 using Android.Views;
 using Android.Widget;
 using ZXing.Common;
 using ZXing;
 using Android.Graphics;
-using System.IO;
 
 namespace ShhhSMS.Fragments
 {
@@ -31,10 +24,9 @@ namespace ShhhSMS.Fragments
         {
             var rootView = inflater.Inflate(Resource.Layout.share_public_key_dialog, container, false);
 
-            _publicKeyQRCode = rootView.FindViewById<ImageView>(Resource.Id.publicKeyQRCode);
+            _publicKeyQRCode = rootView!.FindViewById<ImageView>(Resource.Id.publicKeyQRCode);
 
-            BitMatrix bitmapMatrix = null;
-            bitmapMatrix = new MultiFormatWriter().encode(_barcodeContent, BarcodeFormat.QR_CODE, 660, 660);
+            var bitmapMatrix = new MultiFormatWriter().encode(_barcodeContent, BarcodeFormat.QR_CODE, 660, 660);
 
             var width = bitmapMatrix.Width;
             var height = bitmapMatrix.Height;
@@ -52,7 +44,7 @@ namespace ShhhSMS.Fragments
 
             Bitmap bitmap = Bitmap.CreateBitmap(width, height, Bitmap.Config.Argb8888);
             bitmap.SetPixels(pixelsImage, 0, width, 0, 0, width, height);
-            _publicKeyQRCode.SetImageBitmap(bitmap);
+            _publicKeyQRCode!.SetImageBitmap(bitmap);
 
             return rootView;
         }

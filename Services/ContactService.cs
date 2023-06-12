@@ -8,7 +8,7 @@ namespace ShhhSMS.Services
 {
     public class ContactService : IContactService
     {
-        private string _backingFilePath => Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), "contacts.json");
+        private string _backingFilePath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "contacts.json");
 
         public List<Contact> GetContacts()
         {
@@ -50,7 +50,7 @@ namespace ShhhSMS.Services
 
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
